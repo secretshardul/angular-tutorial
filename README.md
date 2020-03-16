@@ -116,3 +116,9 @@ To send data from template to component. It uses round braces ```()```:
 ```html
 <button (click)="onCreateUser()">
 ```
+
+2. **Local references**: Used to pass selector data from template to component using property binding. Local references are preceded by ```#``` sign.
+```html
+<input type="text" id="name" #personNameElement>
+<button (click)="onCreateUser(personNameElement.value)">create user</button>
+```

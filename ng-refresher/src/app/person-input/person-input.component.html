@@ -1,3 +1,3 @@
 <label for="name">Name</label>
-<input type="text" id="name" >
-<button (click)="onCreateUser()">create user</button>
+<input type="text" id="name" #personNameElement>
+<button (click)="onCreateUser(personNameElement.value)">create user</button>
