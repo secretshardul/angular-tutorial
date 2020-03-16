@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { PersonsComponent } from './persons/persons.component'
 import { PersonInputComponent } from './person-input/person-input.component';
-import { from } from 'rxjs';
+import { AppRoutingModule } from 'src/app-routing.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -12,7 +13,7 @@ import { from } from 'rxjs';
     PersonInputComponent
   ],
   imports: [
-    BrowserModule, FormsModule
+    BrowserModule, FormsModule, AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -166,6 +166,47 @@ export class AppComponent {
 }
 ```
 
+# Routing
+For routing, we need to implement a new module ```AppRoutingModule```. It contains ```routes[]``` array and attaches it to ```RouterModule``` provided by Angular.
+```ts
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { PersonInputComponent } from './app/person-input/person-input.component';
+import { PersonsComponent } from './app/persons/persons.component';
+const routes: Routes = [
+    { path: '', component: PersonsComponent },
+    { path: 'input', component: PersonInputComponent }
+]
+@NgModule({
+    imports: [RouterModule.forRoot(routes)], //attach routes to RouterModule
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
+
+Import ```AppRoutingModule``` into ```AppModule```.
+```ts
+@NgModule({
+  declarations: [
+    AppComponent,
+    PersonsComponent,
+    PersonInputComponent
+  ],
+  imports: [
+    BrowserModule, FormsModule, AppRoutingModule //import routing module
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+Now we can use ```<router-input>``` tag in the app template
+```
+<router-outlet></router-outlet>
+```
+
+Routing needs services to work.
+
 # Glossary
 1. **Views**: Made up of **components** and **templates**.
 2. **Data binding**: Used to exchange data between components and templates.
