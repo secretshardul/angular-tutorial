@@ -64,6 +64,9 @@ app.component.html
 ```
 
 # Cross component communication
+## 1. Property binding
+Used to send data from component to its template or a child component. It uses ```[]``` symbol.
+
 We want to use persons array from ```AppComponent``` in ```PersonsComponent```.
 ```ts
 export class AppComponent {
@@ -89,7 +92,7 @@ export class PersonsComponent {
 <app-persons [personList]="persons"></app-persons>
 ```
 
-3. **String interpolation**: It is a special syntax using double curly braces to insert dynamic data into templates.
+3. **String interpolation**: It is a special syntax using double curly braces ```{{ }}``` to insert dynamic data into templates.
 ```html
 <p>{{ personList }}</p>
 ```
@@ -99,4 +102,17 @@ export class PersonsComponent {
 <ul>
     <li *ngFor="let person of personList">{{ person }}</li>
 </ul>
+```
+
+## 2. Event binding
+To send data from template to component. It uses round braces ```()```:
+
+**Syntax:**
+```
+<selector (event)="handler()">
+```
+
+1. To call PersonInputComponent's ```onCreateUser``` function when a button is clicked
+```html
+<button (click)="onCreateUser()">
 ```
