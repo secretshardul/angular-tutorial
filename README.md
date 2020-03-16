@@ -205,7 +205,53 @@ Now we can use ```<router-input>``` tag in the app template
 <router-outlet></router-outlet>
 ```
 
-Routing needs services to work.
+```/index``` will now open registration page.
+
+# Services
+- A service is a class which can act as a middleman between different components, communicate with other services or act as a data store.
+- Services are used alongside components with help of **dependency injection**.
+- Services are implemented by **providers**. This can be done in 2 ways
+  1. ```providedIn```: Selector specified in same file
+  ```ts
+  import { Injectable } from '@angular/core';
+
+  @Injectable({ providedIn: 'root' }) //make service available in root
+  export class PersonsService {
+      persons: string[] = ['Max', 'Manuel', 'Anna'];
+      
+      onPersonCreated(name: string): void {
+        console.log('Passed' + name);
+        this.persons.push(name);
+      }
+  }
+  ```
+  2. In ngModule metadata(not recommended)
+  ```ts
+  @NgModule({
+    declarations: [
+      AppComponent,
+      PersonsComponent,
+      PersonInputComponent
+    ],
+    imports: [
+      BrowserModule, FormsModule, AppRoutingModule
+    ],
+    providers: [PersonsService], //import PersonsService
+    bootstrap: [AppComponent]
+  })
+  export class AppModule { }
+  ```
+
+Use this service in PersonsComponent to read list of persons. Now root route will work as usual.
+```ts
+export class PersonsComponent {
+    personList: string[];
+    constructor (mPersonsService: PersonsService) { //constructor to intercept service
+        this.personList = mPersonsService.persons;
+    }
+}
+```
+
 
 # Glossary
 1. **Views**: Made up of **components** and **templates**.
