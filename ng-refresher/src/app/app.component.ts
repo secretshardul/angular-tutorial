@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   persons: string[] = ['Max', 'Manuel', 'Anna'];
+  onPersonCreated(name: string): void {
+    console.log('Passed' + name);
+    this.persons.push(name);
+  }
 }

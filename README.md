@@ -91,6 +91,10 @@ export class PersonsComponent {
 ```html
 <app-persons [personList]="persons"></app-persons>
 ```
+Property binding can also be used to pass typescript expressions and component parameters into HTML selectors. Eg.
+```html
+<input type="text" id="name" [value]="1+1">
+```
 
 3. **String interpolation**: It is a special syntax using double curly braces ```{{ }}``` to insert dynamic data into templates.
 ```html
@@ -122,3 +126,51 @@ To send data from template to component. It uses round braces ```()```:
 <input type="text" id="name" #personNameElement>
 <button (click)="onCreateUser(personNameElement.value)">create user</button>
 ```
+
+## 3. Two-way binding
+Implemented by importing ```FormsModule``` from ```@angular/forms```. It allows two way data flow between component and template. This removes need of using local references or passing parameters into event bound functions.
+```html
+<input type="text" id="text" [(ngModel)]="enteredPersonName">
+<button (click)="onClickUser()">Create user</button>
+```
+
+# Custom events
+**Event binding** can be used to pass data back from a child component to its parent component. This is done by emitting a custom event which is heard by the parent.
+For example, to notify app component about user creation event:
+
+**PersonInputComponent**
+```ts
+    @Output() personCreate = new EventEmitter();
+    enteredPersonName: string = '';
+
+    onCreateUser() {
+        console.log(this.enteredPersonName);
+        this.personCreate.emit(this.enteredPersonName); //fires off event
+        this.enteredPersonName = '';
+    }
+```
+**AppComponent template**
+```html
+<app-person-input (personCreate)="onPersonCreated($event)">
+```
+Here ```$event``` is a keyword to intercept events in templates. But in the component we can directly accept the value contained in the event.
+
+**AppComponent**
+```ts
+export class AppComponent {
+  persons: string[] = ['Max', 'Manuel', 'Anna'];
+  onPersonCreated(name: string): void {
+    console.log('Passed' + name);
+    this.persons.push(name);
+  }
+}
+```
+
+# Glossary
+1. **Views**: Made up of **components** and **templates**.
+2. **Data binding**: Used to exchange data between components and templates.
+![](images/2020-03-16-16-45-07.png)
+  1. **Property binding**: From component to its template or to a child component.
+  2. **String interpolation**: To directly display component's string value in template.
+  3. **Event binding**: From template to component or from child component to parent component.
+  4. **Two way binding**
