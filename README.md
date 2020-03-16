@@ -252,6 +252,21 @@ export class PersonsComponent {
 }
 ```
 
+# Lifecycle hooks
+Angular components have a lifecycle where they are created, updated and destroyed. Lifecycle hooks allow us to add functionality based on these events.
+
+**persons.component.ts**
+```ts
+export class PersonsComponent implements OnInit{
+    personList: string[];
+    //Angular convention: Intercept service using constructor but use value using lifecycle hook
+    //Bad practice to use value from constructor
+    constructor (private mPersonsService: PersonsService) {} //mPersonsService gets saved as class attribute
+    ngOnInit() {
+        this.personList = this.mPersonsService.persons;
+    }
+}
+```
 
 # Glossary
 1. **Views**: Made up of **components** and **templates**.
