@@ -61,3 +61,19 @@ Rx.Observable.fromEvent(button, click)
 ```js
 subscription.unsubscribe()
 ```
+
+# RxJS operators(2.html)
+# map() and throttleTime()
+- **map()** Transforms incoming observable and returns a new observable.
+- **throttleTime()**: Throttles rate of incoming values.
+```js
+let observable = Rx.Observable.interval(1000)//atomic counter event
+
+let observer = {
+    next: (value) => console.log(value)
+}
+observable
+    .map((value) => { return value*2 }) //transform observable
+    .throttleTime(2000) //set throttling
+    .subscribe(observer)
+```
