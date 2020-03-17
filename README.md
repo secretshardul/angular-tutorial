@@ -1,3 +1,25 @@
+# Index
+- [Setup](#setup)
+- [File structure](#file-structure)
+- [Creating components](#creating-components)
+- [Cross component communication](#cross-component-communication)
+  * [1. Property binding](#1-property-binding)
+  * [2. Event binding](#2-event-binding)
+  * [3. Two-way binding](#3-two-way-binding)
+- [Custom events](#custom-events)
+- [Routing](#routing)
+  * [routerLink](#routerlink)
+- [Services](#services)
+- [Lifecycle hooks](#lifecycle-hooks)
+- [RxJS](#rxjs)
+  * [Primitive vs reference types](#primitive-vs-reference-types)
+  * [Listen for changes in Persons[] and update component](#listen-for-changes-in-persons---and-update-component)
+- [HttpClient](#httpclient)
+- [Glossary](#glossary)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 # Setup
 ```shell script
 ng new ng-refresher #no routing, select CSS style
@@ -351,6 +373,37 @@ export class PersonsComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy() {
         this.personListSubscription.unsubscribe(); //prevent memory leak
+    }
+```
+# HttpClient
+1. Import ```HttpClientModule``` in AppModule
+2. PersonsService fetches data from API
+```ts
+export class PersonsService {
+    persons: string[];
+    personsChanged = new Subject<string[]>(); //add persons[] here whenever change happens
+
+    constructor(private http: HttpClient){} //intercept HttpClient service
+
+    fetchPersons() {
+      this.http.get<any>('https://pokeapi.co/api/v2/pokemon') //provides rxjs observable
+      .pipe(map(resData => {//map() is rxjs method
+        return resData.results.map(pokemon => pokemon.name) //map is array method
+      }))
+      .subscribe(transformedData => {
+        console.log(transformedData);
+        this.persons = [...transformedData];
+        this.personsChanged.next(this.persons);
+      })
+    }
+```
+3. PersonsComponent calls fetchPersons() on component initialization. It sets up a subscription to listen for changes in persons[].
+```ts
+    ngOnInit() {
+        this.personListSubscription = this.personsService.personsChanged.subscribe(persons => {//function executed for every change
+            this.personList = persons;
+        })
+        this.personsService.fetchPersons();
     }
 ```
 

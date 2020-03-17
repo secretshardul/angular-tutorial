@@ -9,14 +9,17 @@ import { Subscription } from 'rxjs';
 export class PersonsComponent implements OnInit, OnDestroy {
     personList: string[];
     personListSubscription: Subscription;
+    isFetching = false;
     //Angular convention: Intercept service using constructor but use value using lifecycle hook
     //Bad practice to use value from constructor
     constructor (private personsService: PersonsService) {} //mPersonsService gets saved as class attribute
     ngOnInit() {
-        this.personList = this.personsService.persons;
         this.personListSubscription = this.personsService.personsChanged.subscribe(persons => {//function executed for every change
+            this.isFetching = false;
             this.personList = persons;
-        })
+        });
+        this.personsService.fetchPersons();
+        this.isFetching = true;
     }
     ngOnDestroy() {
         this.personListSubscription.unsubscribe(); //prevent memory leak
