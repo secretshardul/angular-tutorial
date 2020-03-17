@@ -86,6 +86,39 @@ observable
     .subscribe(observer)
 ```
 
+## debounceTime()
+Checks for pause in event emission.
+```js
+let input = document.querySelector('input')
+let observable = Rx.Observable.fromEvent(input, 'input')
+
+let observer = {
+    next: (value) => console.log(value)
+}
+
+observable
+.map((event) => event.target.value)
+.distinctUntilChanged() //same values not sent
+.subscribe(observer)
+```
+
+## distinctUntilChanged()
+Makes sure that consecutive elements have different values.
+```js
+let input = document.querySelector('input')
+let observable = Rx.Observable.fromEvent(input, 'input')
+
+let observer = {
+    next: (value) => console.log(value)
+}
+
+observable
+.map((event) => event.target.value)
+.debounceTime(500) //allow event only if 2 second gap after last event
+.distinctUntilChanged() //same values not sent
+.subscribe(observer)
+```
+
 # RxJS 6
 - RxJS operators are now functions instead of methods:
     1. **Function**: standalone

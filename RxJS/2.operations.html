@@ -4,19 +4,33 @@
         <script src=" https://unpkg.com/@reactivex/rxjs@5.0.3/dist/global/Rx.js"></script>
     </head>
     <body>
+        <input type="text">
         <button>Click me</button>
         
         <script>
-            let observable = Rx.Observable.interval(1000)//atomic counter event
+            // let observable = Rx.Observable.interval(1000)//atomic counter event
             
+            // let observer = {
+            //     next: (value) => console.log(value)
+            // }
+            // observable
+            //     .filter((value) => { return value%2 == 0 }) //condition must be true
+            //     .map((value) => { return value*2 })
+            //     // .throttleTime(2000)
+            //     .subscribe(observer)
+
+            let input = document.querySelector('input')
+            let observable = Rx.Observable.fromEvent(input, 'input')
+
             let observer = {
                 next: (value) => console.log(value)
             }
+
             observable
-                .filter((value) => { return value%2 == 0 }) //condition must be true
-                .map((value) => { return value*2 })
-                // .throttleTime(2000)
-                .subscribe(observer)
+            .map((event) => event.target.value)
+            .debounceTime(500) //allow event only if 2 second gap after last event
+            .distinctUntilChanged() //same values not sent
+            .subscribe(observer)
 
         </script>
     </body>
