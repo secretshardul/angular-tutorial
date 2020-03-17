@@ -1,4 +1,4 @@
-# Intro(1.html)
+# Intro(1.intro.html)
 - RxJS is a library for **reactive programming** using **observables**. It makes writing **asynchronous or callback based code** easier.
 - RxJS provides multiple functions to **process observables in a funnel like manner**. The resulting code is more idiomatic than code written in vanilla Javascript.
 ```js
@@ -62,7 +62,7 @@ Rx.Observable.fromEvent(button, click)
 subscription.unsubscribe()
 ```
 
-# RxJS operators(2.html)
+# RxJS operators(2.operations.html)
 # map() and throttleTime()
 - **map()** Transforms incoming observable and returns a new observable.
 - **throttleTime()**: Throttles rate of incoming values.
@@ -76,4 +76,33 @@ observable
     .map((value) => { return value*2 }) //transform observable
     .throttleTime(2000) //set throttling
     .subscribe(observer)
+```
+
+# RxJS 6
+- RxJS operators are now functions instead of methods:
+    1. **Function**: standalone
+    2. **Method**: An object's function
+This has changed import statement structure and names of many operations.
+- **pipe()**: ```map()```, ```throttleTime()``` are not chained but are passed as parameters to ```pipe()```.
+```js
+.pipe(
+    map((value) => { return value*2 })
+)
+```
+
+# Subjects(3.subjects.html)
+- Observables are passive. RxJS subjects are similar to observables but can be also triggered programmatically.
+- They're like event listeners of angular.
+```js
+            let subject = new Rx.Subject()
+            let observer = {
+                next: (value) => console.log(value),
+                error: (error) => console.log(error),
+                complete: () => console.log('complete')
+            }
+            subject.subscribe(observer)
+            subject.next('next')
+            // subject.error('error')
+            subject.next('next 2')
+            subject.complete()
 ```

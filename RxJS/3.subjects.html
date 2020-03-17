@@ -1,0 +1,23 @@
+<html>
+    <head>
+        
+        <script src=" https://unpkg.com/@reactivex/rxjs@5.0.3/dist/global/Rx.js"></script>
+    </head>
+    <body>
+        <button>Click me</button>
+        
+        <script>
+            let subject = new Rx.Subject()
+            let observer = {
+                next: (value) => console.log(value),
+                error: (error) => console.log(error),
+                complete: () => console.log('complete')
+            }
+            subject.subscribe(observer)
+            subject.next('next')
+            // subject.error('error')
+            subject.next('next 2')
+            subject.complete()
+        </script>
+    </body>
+</html>
