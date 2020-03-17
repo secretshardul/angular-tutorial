@@ -207,6 +207,23 @@ Now we can use ```<router-input>``` tag in the app template
 
 ```/index``` will now open registration page.
 
+## routerLink
+Use ```routerLink``` instead of ```href``` in templates so that app state is preserved and page is not reloaded.
+
+**app.component.html**
+```html
+<div>
+    <p>Using routerLink</p>
+    <a routerLink="/">Persons</a> | <a routerLink="/input">Add persons</a>
+</div>
+<div>
+    <p>Using href</p>
+    <a href="/">Persons</a> | <a href="/input">Add persons</a>
+</div>
+
+<router-outlet></router-outlet>
+```
+
 # Services
 - A service is a class which can act as a middleman between different components, communicate with other services or act as a data store.
 - Services are used alongside components with help of **dependency injection**.
@@ -248,6 +265,24 @@ export class PersonsComponent {
     personList: string[];
     constructor (mPersonsService: PersonsService) { //constructor to intercept service
         this.personList = mPersonsService.persons;
+    }
+}
+```
+
+Use service to add and remove users in PersonInputComponent
+```ts
+export class PersonsService {
+    persons: string[] = ['Max', 'Manuel', 'Anna'];
+    
+    addPerson(name: string): void {
+      console.log('Passed' + name);
+      this.persons.push(name);
+    }
+
+    removePerson(name: string) {
+      this.persons = this.persons.filter(person => {
+        return person !== name;
+      });
     }
 }
 ```

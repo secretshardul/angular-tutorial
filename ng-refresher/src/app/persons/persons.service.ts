@@ -4,8 +4,14 @@ import { Injectable } from '@angular/core';
 export class PersonsService {
     persons: string[] = ['Max', 'Manuel', 'Anna'];
     
-    onPersonCreated(name: string): void {
+    addPerson(name: string): void {
       console.log('Passed' + name);
       this.persons.push(name);
+    }
+
+    removePerson(name: string) {
+      this.persons = this.persons.filter(person => {
+        return person !== name;
+      });
     }
 }

@@ -9,8 +9,12 @@ export class PersonsComponent implements OnInit{
     personList: string[];
     //Angular convention: Intercept service using constructor but use value using lifecycle hook
     //Bad practice to use value from constructor
-    constructor (private mPersonsService: PersonsService) {} //mPersonsService gets saved as class attribute
+    constructor (private personsService: PersonsService) {} //mPersonsService gets saved as class attribute
     ngOnInit() {
-        this.personList = this.mPersonsService.persons;
+        this.personList = this.personsService.persons;
+    }
+    onRemovePerson(person: string){
+        console.log('removing ' + person);
+        this.personsService.removePerson(person);
     }
 }
