@@ -302,6 +302,57 @@ export class PersonsComponent implements OnInit{
     }
 }
 ```
+# RxJS
+Deletions made my PersonService in Persons[] array are not reflected in PersonsComponent. Observables provided by RxJS are a convenient way to listen for changes and make updations.
+
+## Primitive vs reference types
+1. Primitive types(string, number, boolean): Stored in a **stack**. Variables containing primitive types can be copied (call by value).
+2. Reference types(object, arrays): Stored in a **heap**. The **heap is referenced via a pointer stored in the stack**. Reference type variables are not copied but the pointer is copied instead(call by reference).
+```ts
+let arr1 = [1,2];
+let arr2 = arr1;
+arr2.push(3);
+console.log(arr1); //includes value 3 pushed in arr2
+```
+Since variable only holds a reference and the reference value does not change, it is difficult to detect changes in reference types. Here RxJS comes to the rescue. Angular event emitter is also based on RxJS.
+
+## Listen for changes in Persons[] and update component
+**persons.service.ts**
+```ts
+export class PersonsService {
+    persons: string[] = ['Max', 'Manuel', 'Anna'];
+    personsChanged = new Subject<string[]>(); //add persons[] here whenever change happens
+
+    addPerson(name: string): void {
+      console.log('Passed' + name);
+      this.persons.push(name);
+      this.personsChanged.next(this.persons);
+    }
+
+    removePerson(name: string) {
+      this.persons = this.persons.filter(person => {
+        return person !== name;
+      });
+      this.personsChanged.next(this.persons);
+    }
+}
+```
+**persons.component.ts**
+```ts
+export class PersonsComponent implements OnInit, OnDestroy {
+    personList: string[];
+    personListSubscription: Subscription;
+    constructor (private personsService: PersonsService) {}
+    ngOnInit() {
+        this.personList = this.personsService.persons;
+        this.personListSubscription = this.personsService.personsChanged.subscribe(persons => {//function executed for every change
+            this.personList = persons;
+        })
+    }
+    ngOnDestroy() {
+        this.personListSubscription.unsubscribe(); //prevent memory leak
+    }
+```
 
 # Glossary
 1. **Views**: Made up of **components** and **templates**.
