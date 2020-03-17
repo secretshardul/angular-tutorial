@@ -13,8 +13,9 @@
                 next: (value) => console.log(value)
             }
             observable
+                .filter((value) => { return value%2 == 0 }) //condition must be true
                 .map((value) => { return value*2 })
-                .throttleTime(2000)
+                // .throttleTime(2000)
                 .subscribe(observer)
 
         </script>

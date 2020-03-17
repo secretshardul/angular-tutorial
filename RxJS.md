@@ -78,6 +78,14 @@ observable
     .subscribe(observer)
 ```
 
+## filter()
+Filters events from reaching observer based on some condition.
+```js
+observable
+    .filter((value) => { return value%2 == 0 }) //condition must be true
+    .subscribe(observer)
+```
+
 # RxJS 6
 - RxJS operators are now functions instead of methods:
     1. **Function**: standalone
