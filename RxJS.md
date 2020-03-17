@@ -119,6 +119,37 @@ observable
 .subscribe(observer)
 ```
 
+## reduce()
+- Performs addition or any other operation on event elements and returns the accumulator.
+- Unsuitable for endless streams
+```js
+let observable = Rx.Observable.of(1,2,3,4)
+let observer = {
+    next: (value) => console.log(value)
+}
+observable
+.reduce(//gives single end value
+    (accumulator, current) => {
+        return accumulator + current
+}, 0)
+.subscribe(observer)
+```
+
+## scan()
+Similar to reduce() but returns all intermediary events as well
+```js
+let observable = Rx.Observable.of(1,2,3,4)
+let observer = {
+    next: (value) => console.log(value)
+}
+observable
+.scan(//gives all intermediary values
+    (accumulator, current) => {
+        return accumulator + current
+}, 0)
+.subscribe(observer)
+```
+
 # RxJS 6
 - RxJS operators are now functions instead of methods:
     1. **Function**: standalone

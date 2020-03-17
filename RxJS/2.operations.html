@@ -19,17 +19,32 @@
             //     // .throttleTime(2000)
             //     .subscribe(observer)
 
-            let input = document.querySelector('input')
-            let observable = Rx.Observable.fromEvent(input, 'input')
+            /*debounceTime() and distinctUntilChanged()*/
 
+            // let input = document.querySelector('input')
+            // let observable = Rx.Observable.fromEvent(input, 'input')
+
+            // let observer = {
+            //     next: (value) => console.log(value)
+            // }
+
+            // observable
+            // .map((event) => event.target.value)
+            // .debounceTime(500) //allow event only if 2 second gap after last event
+            // .distinctUntilChanged() //same values not sent
+            // .subscribe(observer)
+
+            /*reduce() and scan()*/
+            let observable = Rx.Observable.of(1,2,3,4)
             let observer = {
                 next: (value) => console.log(value)
             }
-
             observable
-            .map((event) => event.target.value)
-            .debounceTime(500) //allow event only if 2 second gap after last event
-            .distinctUntilChanged() //same values not sent
+            // .reduce(//gives single end value
+            .scan(//gives all intermediary values
+                (accumulator, current) => {
+                    return accumulator + current
+            }, 0)
             .subscribe(observer)
 
         </script>
