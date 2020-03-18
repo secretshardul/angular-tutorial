@@ -150,6 +150,15 @@ observable
 .subscribe(observer)
 ```
 
+## pluck()
+- Simplifies field extraction. It only works for objects
+- Can accept multiple fields
+```js
+map((event) => event.target.value)
+
+pluck('target', 'value') //pluck() simplifies field extraction
+```
+
 # RxJS 6
 - RxJS operators are now functions instead of methods:
     1. **Function**: standalone
