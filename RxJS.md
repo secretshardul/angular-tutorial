@@ -185,6 +185,23 @@ observable1.mergeMap(
 })
 ```
 
+## switchMap()
+- Cancels existing subscription(switch) and starts a new one(map).
+```js
+button = document.querySelector('button')
+let observable1 = Rx.Observable.fromEvent(button, 'click')
+let observable2 = Rx.Observable.interval(1000)
+
+observer = {
+    next: (value) => console.log(value)
+}
+observable1
+.switchMap(//counter starts all over again
+    event => { return observable2 }
+)
+.subscribe(observer)
+```
+
 # RxJS 6
 - RxJS operators are now functions instead of methods:
     1. **Function**: standalone
