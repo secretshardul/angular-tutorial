@@ -158,6 +158,32 @@ map((event) => event.target.value)
 
 pluck('target', 'value') //pluck() simplifies field extraction
 ```
+## mergeMap() (4.mergemap.html)
+- Merge two observables into one observer.
+- Merges an outer observable with an inner observable. Inner observable must emit event after outer observable has done this in order for mergeMap() to emit a merged event.
+```js
+let input1 = document.querySelector('#input1')
+let input2 = document.querySelector('#input2')
+let span = document.querySelector('span')
+
+let observable1 = Rx.Observable.fromEvent(input1, 'input')
+let observable2 = Rx.Observable.fromEvent(input2, 'input')
+
+observable1.mergeMap(
+    event1 => {//outer event must happen first
+        return observable2.map(
+            event2 => {//
+                return event1.target.value + ' ' + event2.target.value
+            }
+        )
+    }
+).subscribe({
+    next: (event) => {
+        console.log(event)
+        return span.textContent = event
+    }
+})
+```
 
 # RxJS 6
 - RxJS operators are now functions instead of methods:
