@@ -7,7 +7,8 @@
         <button>Click me</button>
         
         <script>
-            let subject = new Rx.Subject()
+            // let subject = new Rx.Subject()
+            let subject = new Rx.BehaviorSubject('initial')
             let observer = {
                 next: (value) => console.log(value),
                 error: (error) => console.log(error),

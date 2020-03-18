@@ -218,15 +218,32 @@ This has changed import statement structure and names of many operations.
 - Observables are passive. RxJS subjects are similar to observables but can be also triggered programmatically.
 - They're like event listeners of angular.
 ```js
-            let subject = new Rx.Subject()
-            let observer = {
-                next: (value) => console.log(value),
-                error: (error) => console.log(error),
-                complete: () => console.log('complete')
-            }
-            subject.subscribe(observer)
-            subject.next('next')
-            // subject.error('error')
-            subject.next('next 2')
-            subject.complete()
+let subject = new Rx.Subject()
+let observer = {
+    next: (value) => console.log(value),
+    error: (error) => console.log(error),
+    complete: () => console.log('complete')
+}
+subject.subscribe(observer)
+subject.next('next')
+// subject.error('error')
+subject.next('next 2')
+subject.complete()
+```
+
+## BehaviorSubject
+- Loads subject with initial default value.
+```js
+// let subject = new Rx.Subject()
+let subject = new Rx.BehaviorSubject('initial')//loaded first
+let observer = {
+    next: (value) => console.log(value),
+    error: (error) => console.log(error),
+    complete: () => console.log('complete')
+}
+subject.subscribe(observer)
+subject.next('next')
+// subject.error('error')
+subject.next('next 2')
+subject.complete()
 ```
